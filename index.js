@@ -14,4 +14,7 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+  console.log(`Listening on port ${PORT}`);
+  console.log(`http://localhost:${PORT}`);
+  console.log('Press Ctrl+C to quit.');
 });

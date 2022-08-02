@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { getPalestrantes } = require('../fs-arquivos');
+const generateToken = require('../generateToken');
 
 const router = Router();
 
@@ -27,6 +28,10 @@ router.get('/talker/:id', async (req, res) => {
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
+});
+
+router.post('/login', (req, res) => {
+  res.status(200).json({ token: generateToken() });
 });
 
 module.exports = router;

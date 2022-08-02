@@ -1,6 +1,10 @@
 const { Router } = require('express');
 const { getPalestrantes } = require('../fs-arquivos');
 const generateToken = require('../generateToken');
+const {
+  validateEmail,
+  validatePassword,
+} = require('../middlewares/userValidation');
 
 const router = Router();
 
@@ -30,7 +34,7 @@ router.get('/talker/:id', async (req, res) => {
   }
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', validateEmail, validatePassword, (_req, res) => {
   res.status(200).json({ token: generateToken() });
 });
 

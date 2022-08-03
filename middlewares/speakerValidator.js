@@ -1,3 +1,5 @@
+const { getPalestrantes } = require('../fs-arquivos');
+
 const speakerName = (req, res, next) => {
   const { name } = req.body;
   if (!name) {
@@ -47,9 +49,27 @@ const speakerTalkRate = (req, res, next) => {
   next();
 };
 
+const searchSpeaker = async (req, res, next) => {
+  const { q } = req.query;
+  try {
+    const palestrantes = await getPalestrantes();
+    const search = palestrantes.filter((pales) => pales.name.includes(q));
+    if (!q) {
+      return res.status(200).json(palestrantes);
+    }
+    if (search.length === 0) {
+      return res.status(200).json([]);
+    }
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+  next();
+};
+
 module.exports = {
   speakerName,
   speakerAge,
   speakerTalk,
   speakerTalkRate,
+  searchSpeaker,
 };

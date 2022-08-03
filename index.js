@@ -23,9 +23,7 @@ app.get('/', (_request, response) => {
 
 app.use(router);
 
-app.use(
-  tokenValidation,
-  );
+app.use(tokenValidation);
 
 app.use(routerAlt);
 

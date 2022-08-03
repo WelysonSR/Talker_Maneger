@@ -5,6 +5,8 @@ const {
   validateEmail,
   validatePassword,
 } = require('../middlewares/userValidation');
+const validateToken = require('../middlewares/tokenValidation');
+const { searchSpeaker } = require('../middlewares/speakerValidator');
 
 const router = Router();
 
@@ -15,6 +17,21 @@ router.get('/talker', async (_req, res) => {
       return res.status(200).json(palestrantes);
     }
     return res.status(200).json([]);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+});
+
+router.get('/talker/search',
+  validateToken,
+  searchSpeaker, async (req, res) => {
+  const { q } = req.query;
+  try {
+    const palestrantes = await getPalestrantes();
+    const search = palestrantes.filter((pales) => pales.name.includes(q));
+    if (search.length > 0) {
+      return res.status(200).json(search);
+    }
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }

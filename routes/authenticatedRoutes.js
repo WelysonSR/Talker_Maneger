@@ -1,10 +1,20 @@
 const { Router } = require('express');
 const { getPalestrantes, setPalestrantes } = require('../fs-arquivos');
-// const {} = require('../middlewares/speakerValidator');
+const {
+  speakerName,
+  speakerAge,
+  speakerTalk,
+  speakerTalkRate,
+} = require('../middlewares/speakerValidator');
 
 const routerAlt = Router();
 
-routerAlt.post('/talker', async (req, res) => {
+routerAlt.post('/talker',
+  speakerName,
+  speakerAge,
+  speakerTalk,
+  speakerTalkRate,
+  async (req, res) => {
   const { name, age, talk } = req.body;
   const palestrante = await getPalestrantes();
   try {
@@ -22,7 +32,12 @@ routerAlt.post('/talker', async (req, res) => {
   }
 });
 
-routerAlt.put('/talker/:id', async (req, res) => { 
+routerAlt.put('/talker/:id',
+  speakerName,
+  speakerAge,
+  speakerTalk,
+  speakerTalkRate,
+  async (req, res) => { 
   const { id } = req.params;
   const { name, age, talk } = req.body;
   try {

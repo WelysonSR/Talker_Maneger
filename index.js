@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./routes');
+const routerAlt = require('./routes/authenticatedRoutes');
+const tokenValidation = require('./middlewares/tokenValidation');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,6 +16,10 @@ app.get('/', (_request, response) => {
 });
 
 app.use(router);
+
+app.use(tokenValidation);
+
+app.use(routerAlt);
 
 app.listen(PORT, () => {
   console.log('Online');

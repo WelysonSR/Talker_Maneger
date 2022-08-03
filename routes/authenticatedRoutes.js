@@ -41,7 +41,13 @@ routerAlt.delete('/talker/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const palestrantes = await getPalestrantes();
-    const newPalestrantes = palestrantes.filter((pales) => pales.id !== Number(id));
+    const delite = palestrantes.some((pales) => Number(pales.id) === Number(id));
+
+    if (!delite) {
+      throw new Error('Pessoa palestrante não encontrada');
+    }
+
+    const newPalestrantes = palestrantes.filter((pales) => Number(pales.id) !== Number(id));
     await setPalestrantes(newPalestrantes);
     return res.status(204).end();
   } catch (err) {

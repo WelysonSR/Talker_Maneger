@@ -3,6 +3,12 @@ const bodyParser = require('body-parser');
 const router = require('./routes');
 const routerAlt = require('./routes/authenticatedRoutes');
 const tokenValidation = require('./middlewares/tokenValidation');
+const {
+  speakerName,
+  speakerAge,
+  speakerTalk,
+  speakerTalkRate,
+} = require('./middlewares/speakerValidator');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,7 +23,13 @@ app.get('/', (_request, response) => {
 
 app.use(router);
 
-app.use(tokenValidation);
+app.use(
+  tokenValidation,
+  speakerName,
+  speakerAge,
+  speakerTalk,
+  speakerTalkRate,
+  );
 
 app.use(routerAlt);
 
